@@ -1,34 +1,29 @@
 import QtQuick 2.0
 
 Item {
-    property var elements: [1, 2, 3]
-    readonly property real angleStep: 360 / elements.length
+    property var elements: repeaterModel
+    readonly property real angleStep: 360 / repeaterModel.count
     anchors.centerIn: parent;
 
     Repeater {
-        model: elements
-        Rectangle {
-            id: rect
-            width: 40
-            height: width
-            color: "red"
-            border.width: 1
-            radius: width * 0.5
-            Text {
-                 anchors.centerIn: parent
-                 color: "black"
-                 text: modelData.toString();
-            }
+        id: repeater;
+        model: ListModel {
+            id: repeaterModel
+        }
+        GameElement {
+            id: element
+            value: model.txt
             transform: [
                 Translate {
-                    x: -rect.width / 2
-                    y: -rect.height / 2 + 200
+                    y: 200
                 },
                 Rotation {
-                    angle: angleStep * index
+                    angle: -index * angleStep
+                    Behavior on angle {
+                        NumberAnimation { duration: 500 }
+                    }
                 }
             ]
-
         }
     }
 }

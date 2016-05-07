@@ -6,25 +6,28 @@ Item {
     property real intervalsCount: 0;
     property real angle: 0;
 
-    readonly property real angleStep: Math.PI * 2 / intervalsCount
-    readonly property int index: Math.floor(angle / angleStep)
-    readonly property real displayAngle: index * angleStep + angleStep / 2
+    readonly property real angleStep: 360 / intervalsCount
+    readonly property int index: Math.floor(angle / angleStep + 1)
+    readonly property real displayAngle: -(index + intervalsCount / 2 - 1/2)* angleStep;
 
     Rectangle {
         width:1
         height:200
         color: "black"
         transform: [
+            Translate {
+                y: -200
+            },
             Rotation {
-                angle: -displayAngle / Math.PI * 180
+                angle: displayAngle
             }
         ]
         RectangularGlow {
-            anchors.fill: rect
+            anchors.fill: parent
             glowRadius: 2
             spread: 0.1
             color: "black"
-            cornerRadius: radius + glowRadius
+            cornerRadius: parent.radius + glowRadius
         }
     }
 }
