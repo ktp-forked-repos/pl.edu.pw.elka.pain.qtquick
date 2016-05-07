@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>GameBoard.qml</file>
         <file>Pointer.qml</file>
+        <file>GameElements.qml</file>
     </qresource>
 </RCC>

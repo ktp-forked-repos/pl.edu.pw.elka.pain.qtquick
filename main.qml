@@ -7,10 +7,6 @@ Window {
     minimumHeight: 500
     minimumWidth: 500
 
-    Text {
-        text: qsTr("Hello World")
-        anchors.centerIn: parent
-    }
     GameBoard {
 
     }

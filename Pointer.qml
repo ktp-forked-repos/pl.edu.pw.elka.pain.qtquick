@@ -3,25 +3,20 @@ import QtGraphicalEffects 1.0
 
 Item {
     anchors.centerIn: parent;
-        property real intervalsCount: 0;
-        property real angle: 0;
+    property real intervalsCount: 0;
+    property real angle: 0;
+
+    readonly property real angleStep: Math.PI * 2 / intervalsCount
+    readonly property int index: Math.floor(angle / angleStep)
+    readonly property real displayAngle: index * angleStep + angleStep / 2
 
     Rectangle {
-        id: rect
-        property real angleStep: Math.PI * 2 / intervalsCount
-        property int pointerPosition: Math.floor(angle / angleStep)
-        property real displayAngle: pointerPosition * angleStep + angleStep / 2
-
-        //anchors.centerIn: parent
         width:1
         height:200
         color: "black"
         transform: [
             Rotation {
-                angle: -rect.displayAngle / Math.PI * 180
-            },
-            Translate {
-                //y: 100
+                angle: -displayAngle / Math.PI * 180
             }
         ]
         RectangularGlow {
@@ -29,7 +24,7 @@ Item {
             glowRadius: 2
             spread: 0.1
             color: "black"
-            cornerRadius: rect.radius + glowRadius
+            cornerRadius: radius + glowRadius
         }
     }
 }
