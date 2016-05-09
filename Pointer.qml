@@ -12,6 +12,7 @@ Item {
 
     Rectangle {
         width:1
+        opacity: 0.1
         height:200
         color: "black"
         transform: [
@@ -31,4 +32,3 @@ Item {
         }
     }
 }
-

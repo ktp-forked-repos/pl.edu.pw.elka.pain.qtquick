@@ -5,6 +5,7 @@ import QtQuick 2.0
 Item {
     id: gameBoard
     property real mouseAngle: Math.atan2(-mouseArea.mouseX + width / 2, -mouseArea.mouseY + height / 2) / Math.PI * 180 + 180;
+    property var element: Actions.createNextElement()
 
     anchors.fill: parent
 
@@ -12,9 +13,8 @@ Item {
         id: mouseArea
         anchors.fill: parent
         onClicked: {
-            var element = Actions.createElement();
-            Actions.addElementAt(gameElements.elements, pointer.index, element);
-            gameElement.value++;
+            gameElements.elements.insert(pointer.index, element);
+            element = Actions.createNextElement()
         }
     }
     Rectangle {
@@ -35,10 +35,11 @@ Item {
     }
     GameElement {
         id: gameElement
-        value: 1
+        value: element.val
+        type: element.type
     }
-
-    Component.onCompleted: Actions.createElements(gameElements.elements, 5);
-
+    Component.onCompleted: {
+        gameElements.elements.append(Actions.createNextElement());
+    }
 }
 
