@@ -9,12 +9,12 @@ GameElement {
         element.state = "animateIn"
     }
     property var animateOut: function(toAngle) {
-        animateOutAngle = toAngle
+        element.animateOutAngle = toAngle
         element.state = "animateOut"
     }
     signal animatedIn();
     signal animatedOut();
-    value: model.val
+    value: model.value
     type: model.type
     transform: [
         Translate { y: element.radius },
@@ -32,7 +32,7 @@ GameElement {
         },
         State {
             name: "animateOut"
-            PropertyChanges { target: element; angle: animateOutAngle}
+            PropertyChanges { target: element; radius: 0 }
         }
 
     ]
@@ -53,7 +53,7 @@ GameElement {
             to: "animateOut"
             SequentialAnimation {
                 NumberAnimation {
-                    property: "angle"
+                    property: "radius"
                     duration: 500
                 }
                 ScriptAction {

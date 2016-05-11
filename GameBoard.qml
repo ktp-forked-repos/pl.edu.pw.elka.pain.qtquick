@@ -41,17 +41,16 @@ Item {
         }
         ActiveGameElement {
             angle: -index * angleStep
-            onAnimatedIn: {
-                Actions.removeItems(index);
+            onAnimatedIn: { Actions.tryRemoveItems(index); }
+            onAnimatedOut: {
+                repeaterModel.remove(index)
             }
         }
-        onItemAdded: {
-            item.animateIn()
-        }
+        onItemAdded: { item.animateIn() }
     }
     GameElement {
         id: gameElement
-        value: element.val
+        value: element.value
         type: element.type
     }
     Component.onCompleted: {
