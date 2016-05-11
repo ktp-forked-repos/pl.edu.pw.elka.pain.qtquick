@@ -3,9 +3,9 @@
         <file>main.qml</file>
         <file>GameBoard.qml</file>
         <file>Pointer.qml</file>
-        <file>GameElements.qml</file>
         <file>Actions.js</file>
         <file>GameElement.qml</file>
         <file>Constants.js</file>
+        <file>ActiveGameElement.qml</file>
     </qresource>
 </RCC>

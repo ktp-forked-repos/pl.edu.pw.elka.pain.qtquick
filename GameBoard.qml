@@ -6,6 +6,9 @@ Item {
     id: gameBoard
     property real mouseAngle: Math.atan2(-mouseArea.mouseX + width / 2, -mouseArea.mouseY + height / 2) / Math.PI * 180 + 180;
     property var element: Actions.createNextElement()
+    readonly property real angleStep: 360 / repeaterModel.count
+    property int minElemOnBoardVal: 1;
+    property int maxElemOnBoardVal: 1;
 
     anchors.fill: parent
 
@@ -13,25 +16,38 @@ Item {
         id: mouseArea
         anchors.fill: parent
         onClicked: {
-            gameElements.elements.insert(pointer.index, element);
+            repeaterModel.insert(pointer.index, element);
             element = Actions.createNextElement()
         }
     }
     Rectangle {
-        anchors.centerIn: parent
-        width: parent.width > parent.height ? parent.height : parent.width;
+        width: parent.width < parent.height ? parent.width : parent.height
         height: width
+        radius: 0.5 * width
+        anchors.centerIn: parent;
         color: "white"
         border.width: 1
-        radius: width * 0.5
+        border.color: "black"
     }
     Pointer {
         id: pointer
         angle: mouseAngle
-        intervalsCount: gameElements.elements.count
+        intervalsCount: repeaterModel.count
     }
-    GameElements {
-        id: gameElements
+    Repeater {
+        id: repeater
+        model: ListModel {
+            id: repeaterModel
+        }
+        ActiveGameElement {
+            angle: -index * angleStep
+            onAnimatedIn: {
+                Actions.removeItems(index);
+            }
+        }
+        onItemAdded: {
+            item.animateIn()
+        }
     }
     GameElement {
         id: gameElement
@@ -39,7 +55,7 @@ Item {
         type: element.type
     }
     Component.onCompleted: {
-        gameElements.elements.append(Actions.createNextElement());
+        repeaterModel.append(Actions.createNextElement());
     }
 }
 
