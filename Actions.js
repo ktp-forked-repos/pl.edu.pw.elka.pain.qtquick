@@ -1,7 +1,7 @@
 .import "Constants.js" as Const
 
 var defaultPlusChance = 0.1
-var plusChanceIncrement = 0.04
+var plusChanceIncrement = 0.05
 var plusChance = defaultPlusChance
 
 function createNextElement() {
@@ -14,7 +14,7 @@ function createNextElement() {
     }
     else {
         var min = gameBoard.minElemOnBoardVal
-        var max = gameBoard.maxElemOnBoardVal
+        var max = Math.min(gameBoard.maxElemOnBoardVal, min + 10)
         type = Const.TYPE_ELEMENT
         value = Math.floor(Math.random() * (max - min + 1)) + min;
         plusChance += plusChanceIncrement
@@ -30,15 +30,21 @@ function getColor(item) {
     return Qt.rgba(r, g, b, 1)
 }
 
-function tryRemoveItems(index)
+function onClicked(index) {
+    repeaterModel.insert(index, gameBoard.element);
+    gameBoard.element = createNextElement()
+}
+
+function onAnimatedIn(index)
 {
-    var left = getValidIndex(index - 1)
-    var right = getValidIndex(index + 1)
-    if(removeItems(index) || removeItems(left) || removeItems(right));
+    removeItems(index)
+    removeItems(index - 1)
+    removeItems(index + 1)
 }
 
 function removeItems(index)
 {
+    index = getValidIndex(index)
     var item = repeater.itemAt(index)
     var elementCount = repeater.count - 3
     var summedValue = 0
@@ -66,7 +72,10 @@ function removeItems(index)
     }
 }
 
-function recalculateMinMaxElemOnBoard() {
+function onAnimatedOut(index) {
+    repeaterModel.remove(index)
+    removeItems(index)
+    removeItems(index - 1)
     var min, max, i, val;
     for(i = 0; i < repeaterModel.count; ++i) {
         if(repeater.itemAt(i).type === Const.TYPE_ELEMENT) {

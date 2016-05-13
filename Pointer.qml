@@ -13,11 +13,11 @@ Item {
     Rectangle {
         width:1
         opacity: 0.1
-        height:200
+        height: gameBoard.size
         color: "black"
         transform: [
             Translate {
-                y: -200
+                y: -gameBoard.size
             },
             Rotation {
                 angle: displayAngle

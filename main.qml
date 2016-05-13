@@ -7,8 +7,7 @@ Window {
     minimumHeight: 500
     minimumWidth: 500
 
-    GameBoard {
-
-    }
+    Background { }
+    GameBoard { }
 }
 
