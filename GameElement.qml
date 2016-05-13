@@ -3,7 +3,7 @@ import "Constants.js" as Const
 import "Actions.js" as Actions
 
 Item {
-
+    id: item
     property int value: 0;
     property string type: Const.TYPE_ELEMENT
     anchors.centerIn: parent;
@@ -11,8 +11,8 @@ Item {
         anchors.centerIn: parent;
         width: 40
         height: width
-        color: type === Const.TYPE_ELEMENT ? "red" : "black"
-        border.width: 1
+        color: Actions.getColor(item)
+        border.width: 2
         radius: width * 0.5
         Text {
              anchors.centerIn: parent

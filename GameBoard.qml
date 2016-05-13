@@ -1,6 +1,7 @@
 
 import "Actions.js" as Actions
 import QtQuick 2.0
+import QtGraphicalEffects 1.0
 
 Item {
     id: gameBoard
@@ -9,9 +10,16 @@ Item {
     readonly property real angleStep: 360 / repeaterModel.count
     property int minElemOnBoardVal: 1;
     property int maxElemOnBoardVal: 1;
-
     anchors.fill: parent
 
+    RadialGradient {
+        anchors.fill: parent
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "red" }
+            GradientStop { position: 0.8; color: "yellow" }
+            GradientStop { position: 0.9; color: "white" }
+        }
+    }
     MouseArea {
         id: mouseArea
         anchors.fill: parent
@@ -25,9 +33,13 @@ Item {
         height: width
         radius: 0.5 * width
         anchors.centerIn: parent;
-        color: "white"
         border.width: 1
         border.color: "black"
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "white" }
+            GradientStop { position: 0.94; color: "black" }
+            GradientStop { position: 1.0; color: "white" }
+        }
     }
     Pointer {
         id: pointer
@@ -44,6 +56,7 @@ Item {
             onAnimatedIn: { Actions.tryRemoveItems(index); }
             onAnimatedOut: {
                 repeaterModel.remove(index)
+                Actions.recalculateMinMaxElemOnBoard()
             }
         }
         onItemAdded: { item.animateIn() }

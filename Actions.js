@@ -1,33 +1,40 @@
 .import "Constants.js" as Const
 
-var tilPlusTimeDefault = 5;
-var tilPlusTime = tilPlusTimeDefault;
+var defaultPlusChance = 0.1
+var plusChanceIncrement = 0.04
+var plusChance = defaultPlusChance
 
 function createNextElement() {
     var value
     var type
-    if(tilPlusTime === 0) {
+    if(Math.random() < plusChance) {
         type = Const.TYPE_PLUS
-        tilPlusTime = tilPlusTimeDefault
+        plusChance = defaultPlusChance
         value = -1
     }
     else {
+        var min = gameBoard.minElemOnBoardVal
+        var max = gameBoard.maxElemOnBoardVal
         type = Const.TYPE_ELEMENT
-        value = Math.floor(Math.random() * (
-            gameBoard.maxElemOnBoardVal - gameBoard.minElemOnBoardVal + 1))
-            + gameBoard.minElemOnBoardVal;
-        tilPlusTime--
+        value = Math.floor(Math.random() * (max - min + 1)) + min;
+        plusChance += plusChanceIncrement
     }
     return { value: value, type: type }
+}
+
+function getColor(item) {
+    if(item.type === Const.TYPE_PLUS) return "black"
+    var r = (Math.sin(item.value) + 1) * 0.9 + 0.1
+    var g = (Math.cos(item.value) + 1) * 0.9 + 0.1
+    var b = (Math.sin(item.value) - Math.cos(item.value) + 2) * 0.45 + 0.1
+    return Qt.rgba(r, g, b, 1)
 }
 
 function tryRemoveItems(index)
 {
     var left = getValidIndex(index - 1)
     var right = getValidIndex(index + 1)
-    if(removeItems(index) || removeItems(left) || removeItems(right)) {
-        recalculateMinMaxElemOnBoard()
-    }
+    if(removeItems(index) || removeItems(left) || removeItems(right));
 }
 
 function removeItems(index)
@@ -46,7 +53,8 @@ function removeItems(index)
             removedCount++
             elementCount -= 2
             if(left.value < summedValue) summedValue++
-            else summedValue = left.value + 2
+            else if(0 === summedValue) summedValue = left.value + 1
+            else summedValue += 2
             left = repeater.itemAt(getValidIndex(index - 1 - removedCount))
             right = repeater.itemAt(getValidIndex(index + 1 + removedCount))
         }
@@ -61,8 +69,8 @@ function removeItems(index)
 function recalculateMinMaxElemOnBoard() {
     var min, max, i, val;
     for(i = 0; i < repeaterModel.count; ++i) {
-        if(repeaterModel.get(i).type === Const.TYPE_ELEMENT) {
-            val = repeaterModel.get(i).value
+        if(repeater.itemAt(i).type === Const.TYPE_ELEMENT) {
+            val = repeater.itemAt(i).value
             max = val
             min = val
             ++i
@@ -70,8 +78,8 @@ function recalculateMinMaxElemOnBoard() {
         }
     }
     for(; i < repeaterModel.count; ++i) {
-        if(repeaterModel.get(i).type === Const.TYPE_ELEMENT) {
-            val = repeaterModel.get(i).value
+        if(repeater.itemAt(i).type === Const.TYPE_ELEMENT) {
+            val = repeater.itemAt(i).value
             if(min > val) min = val
             if(max < val) max = val
         }

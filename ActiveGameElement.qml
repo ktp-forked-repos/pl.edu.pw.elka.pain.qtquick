@@ -42,7 +42,7 @@ GameElement {
             SequentialAnimation {
                 NumberAnimation {
                     property: "radius"
-                    duration: 500
+                    duration: 400
                 }
                 ScriptAction {
                     script: element.animatedIn()
@@ -54,7 +54,7 @@ GameElement {
             SequentialAnimation {
                 NumberAnimation {
                     property: "radius"
-                    duration: 500
+                    duration: 400
                 }
                 ScriptAction {
                     script: element.animatedOut()
