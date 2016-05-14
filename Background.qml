@@ -9,10 +9,10 @@ Rectangle {
         id: bgGrad
         property real stopDown: Math.min(1, Math.pow(1 - fillLevel, 2))
         property real stopUp: Math.max(0, 1 - Math.pow(fillLevel, 2))
-        GradientStop { position: -0.01; color: "white" }
+        GradientStop { position: 0; color: "white" }
         GradientStop { position: bgGrad.stopUp; color: "red" }
         GradientStop { position: bgGrad.stopDown; color: "white" }
-        GradientStop { position: 1.01; color: "red" }
+        GradientStop { position: 1; color: "red" }
         Behavior on stopUp { NumberAnimation { duration: Const.ANIMATION_DURATION }}
         Behavior on stopDown { NumberAnimation { duration: Const.ANIMATION_DURATION }}
     }

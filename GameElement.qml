@@ -15,9 +15,8 @@ Item {
     Circle {
         id: rect
         anchors.centerIn: parent;
-        size: gameBoard.width * 0.1
+        size: gameBoard.size * 0.1
         color: Actions.getColor(element)
-        border.width: size * 0.02
         Text {
              anchors.centerIn: parent
              font.pixelSize: parent.size * 0.4

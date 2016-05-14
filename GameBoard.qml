@@ -16,8 +16,8 @@ Circle {
     RadialGradient {
         anchors.fill: parent
         gradient: Gradient {
-            GradientStop { position: 0.0; color: Qt.rgba(0.8, 0.2, 0.2, 1) }
-            GradientStop { position: 0.499; color: Qt.rgba(0.5, 0.2, 0.2, 1) }
+            GradientStop { position: 0.0; color: Qt.rgba(1.0, 0.4, 0.4, 1) }
+            GradientStop { position: 0.499; color: Qt.rgba(0.4, 0.2, 0.2, 1) }
             GradientStop { position: 0.5; color: Qt.rgba(0, 0, 0, 0) }
             GradientStop { position: 1; color: Qt.rgba(0, 0, 0, 0) }
         }

@@ -11,12 +11,12 @@ Item {
     readonly property real displayAngle: -(index + intervalsCount / 2 - 1/2)* angleStep;
 
     Rectangle {
-        width: 1
-        height: gameBoard.width / 2
+        width: gameBoard.size * 0.003
+        height: gameBoard.size / 2
         color: "black"
         opacity: 0.1
         transform: [
-            Translate { y: -gameBoard.width / 2 },
+            Translate { y: -gameBoard.size / 2 },
             Rotation { angle: displayAngle }
         ]
     }

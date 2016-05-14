@@ -21,10 +21,11 @@ function createNextElement() {
     return { value: value, type: type }
 }
 
-function getColor(item) {
+function getColor(item, seed) {
     if(item.type === Const.TYPE_PLUS) return "black"
-    var sin = Math.sin(item.value)
-    var cos = Math.cos(item.value)
+    if(!seed) seed = 0
+    var sin = Math.sin(item.value + seed)
+    var cos = Math.cos(item.value + seed)
     var r = (sin + 1) * 0.9 + 0.1
     var g = (cos + 1) * 0.9 + 0.1
     var b = (sin - cos + 2) * 0.45 + 0.1
@@ -70,8 +71,11 @@ function checkForGameOver() {
                 animateOut(repeater.itemAt(i))
             }
         }
-        gameBoard.element.value = 1
+        gameBoard.maxElemOnBoardVal = 1
+        gameBoard.minElemOnBoardVal = 1
         gameBoard.activeElemCount = 0
+        gameBoard.element = createNextElement()
+        addItemAt(0, createNextElement())
     }
 }
 
@@ -145,8 +149,8 @@ function removeItems(index) {
 
 function getValidIndex(index) {
     var allCount = repeaterModel.count
-    if(index < 0) return index + allCount
-    if(index >= allCount) return index - allCount
-    if(index < 0 || index > allCount) return 0
+    if(index < 0) index = index + allCount
+    if(index >= allCount) index = index - allCount
+    if(index < 0 || index >= allCount) return 0
     return index
 }
