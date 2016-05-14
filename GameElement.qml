@@ -9,20 +9,18 @@ Item {
     property string type: Const.TYPE_ELEMENT
     property real translate: 0
     property real angle: 0
-    property var animateIn: function() { element.state = Const.STATE_ANIMATE_IN }
-    property var animateOut: function() { element.state = Const.STATE_ANiMATE_OUT }
     signal animatedIn();
     signal animatedOut();
     anchors.centerIn: parent;
     Circle {
-        antialiasing: true
         id: rect
         anchors.centerIn: parent;
         size: gameBoard.width * 0.1
         color: Actions.getColor(element)
-        border.width: 2
+        border.width: size * 0.02
         Text {
              anchors.centerIn: parent
+             font.pixelSize: parent.size * 0.4
              color: "black"
              text: value
              rotation: -element.angle

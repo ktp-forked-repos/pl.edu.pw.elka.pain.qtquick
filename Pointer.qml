@@ -11,24 +11,13 @@ Item {
     readonly property real displayAngle: -(index + intervalsCount / 2 - 1/2)* angleStep;
 
     Rectangle {
-        width:1
-        opacity: 0.1
+        width: 1
         height: gameBoard.width / 2
         color: "black"
+        opacity: 0.1
         transform: [
-            Translate {
-                y: -gameBoard.width / 2
-            },
-            Rotation {
-                angle: displayAngle
-            }
+            Translate { y: -gameBoard.width / 2 },
+            Rotation { angle: displayAngle }
         ]
-        RectangularGlow {
-            anchors.fill: parent
-            glowRadius: 2
-            spread: 0.1
-            color: "black"
-            cornerRadius: parent.radius + glowRadius
-        }
     }
 }

@@ -3,67 +3,51 @@ import "Constants.js" as Const
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 
-Rectangle {
-    id: background
-    anchors.centerIn: parent;
-    anchors.fill: parent
-    gradient: Gradient {
-        id: bgGrad
-        property real stopDown: Math.pow(1 - repeater.count / Const.MAX_ELEMENTS, 2)
-        property real stopUp: 1 - Math.pow(repeater.count / Const.MAX_ELEMENTS, 2)
-        GradientStop { position: -0.01; color: "white" }
-        GradientStop { position: bgGrad.stopUp; color: "red" }
-        GradientStop { position: bgGrad.stopDown; color: "white" }
-        GradientStop { position: 1.01; color: "red" }
-        Behavior on stopUp { NumberAnimation { duration: Const.ANIMATION_DURATION }}
-        Behavior on stopDown { NumberAnimation { duration: Const.ANIMATION_DURATION }}
+Circle {
+    id: gameBoard
+    readonly property real mouseAngle: Math.atan2(-mouseArea.mouseX + width / 2, -mouseArea.mouseY + height / 2) / Math.PI * 180 + 180
+    readonly property real angleStep: 360 / repeaterModel.count
+    property var element: Actions.createNextElement()
+    property int minElemOnBoardVal: 1
+    property int maxElemOnBoardVal: 1
+    property int activeElemCount: 0
+    size: parent.width < parent.height ? parent.width : parent.height
+    anchors.centerIn: parent
+    RadialGradient {
+        anchors.fill: parent
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: Qt.rgba(0.8, 0.2, 0.2, 1) }
+            GradientStop { position: 0.499; color: Qt.rgba(0.5, 0.2, 0.2, 1) }
+            GradientStop { position: 0.5; color: Qt.rgba(0, 0, 0, 0) }
+            GradientStop { position: 1; color: Qt.rgba(0, 0, 0, 0) }
+        }
     }
-
-    Circle {
-        id: gameBoard
-        property real mouseAngle: Math.atan2(-mouseArea.mouseX + width / 2, -mouseArea.mouseY + height / 2) / Math.PI * 180 + 180;
-        property var element: Actions.createNextElement()
-        property int minElemOnBoardVal: 1;
-        property int maxElemOnBoardVal: 1;
-        readonly property real angleStep: 360 / repeaterModel.count
-        size: parent.width < parent.height ? parent.width : parent.height
-        anchors.centerIn: parent;
-        RadialGradient {
-            anchors.fill: parent
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: Qt.rgba(0.8, 0.2, 0.2, 1) }
-                GradientStop { position: 0.499; color: Qt.rgba(0.5, 0.2, 0.2, 1) }
-                GradientStop { position: 0.5; color: Qt.rgba(0, 0, 0, 0) }
-                GradientStop { position: 1; color: Qt.rgba(0, 0, 0, 0) }
-            }
-        }
-        MouseArea {
-            id: mouseArea
-            anchors.fill: parent
-            onClicked: { Actions.addItemAt(pointer.index) }
-        }
-        Pointer {
-            id: pointer
-            angle: gameBoard.mouseAngle
-            intervalsCount: repeaterModel.count
-        }
-        Repeater {
-            id: repeater
-            model: ListModel { id: repeaterModel }
-            GameElement {
-                angle: -index * gameBoard.angleStep
-                value: model.value
-                type: model.type
-                onAnimatedIn: { Actions.onAnimatedIn(index) }
-                onAnimatedOut: { Actions.remove(index) }
-            }
-            onItemAdded: { item.animateIn() }
-        }
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        onClicked: { Actions.addItemAt(pointer.index) }
+    }
+    Pointer {
+        id: pointer
+        angle: gameBoard.mouseAngle
+        intervalsCount: repeaterModel.count
+    }
+    Repeater {
+        id: repeater
+        model: ListModel { id: repeaterModel }
         GameElement {
-            id: gameElement
-            value: gameBoard.element.value
-            type: gameBoard.element.type
+            angle: -index * gameBoard.angleStep
+            value: model.value
+            type: model.type
+            onAnimatedIn: { Actions.onAnimatedIn(index) }
+            onAnimatedOut: { Actions.onAnimatedOut(index) }
         }
-        Component.onCompleted: { repeaterModel.append(Actions.createNextElement()); }
+        onItemAdded: { Actions.animateIn(item) }
     }
+    GameElement {
+        id: gameElement
+        value: gameBoard.element.value
+        type: gameBoard.element.type
+    }
+    Component.onCompleted: { repeaterModel.append(Actions.createNextElement()); }
 }

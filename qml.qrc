@@ -7,5 +7,6 @@
         <file>GameElement.qml</file>
         <file>Constants.js</file>
         <file>Circle.qml</file>
+        <file>Background.qml</file>
     </qresource>
 </RCC>
