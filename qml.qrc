@@ -6,6 +6,5 @@
         <file>Actions.js</file>
         <file>GameElement.qml</file>
         <file>Constants.js</file>
-        <file>Background.qml</file>
     </qresource>
 </RCC>

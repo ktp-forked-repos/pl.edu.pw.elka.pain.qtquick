@@ -8,15 +8,15 @@ Item {
     property string type: Const.TYPE_ELEMENT
     property real translate: 0
     property real angle: 0
-    property var animateIn: function() { element.state = "animateIn" }
-    property var animateOut: function() { element.state = "animateOut" }
+    property var animateIn: function() { element.state = Const.STATE_ANIMATE_IN }
+    property var animateOut: function() { element.state = Const.STATE_ANiMATE_OUT }
     signal animatedIn();
     signal animatedOut();
     anchors.centerIn: parent;
     Rectangle {
         id: rect
         anchors.centerIn: parent;
-        width: gameBoard.size * 0.15
+        width: gameBoard.width * 0.1
         height: width
         color: Actions.getColor(element)
         border.width: 2
@@ -37,18 +37,18 @@ Item {
     ]
     states: [
         State {
-            name: "animateIn"
-            PropertyChanges { target: element; translate: gameBoard.size * 0.8 }
+            name: Const.STATE_ANIMATE_IN
+            PropertyChanges { target: element; translate: gameBoard.width * 0.4 }
         },
         State {
-            name: "animateOut"
+            name: Const.STATE_ANiMATE_OUT
             PropertyChanges { target: element; translate: 0 }
         }
 
     ]
     transitions: [
         Transition {
-            to: "animateIn"
+            to: Const.STATE_ANIMATE_IN
             SequentialAnimation {
                 NumberAnimation {
                     property: "translate"
@@ -58,7 +58,7 @@ Item {
             }
         },
         Transition {
-            to: "animateOut"
+            to: Const.STATE_ANiMATE_OUT
             SequentialAnimation {
                 NumberAnimation {
                     property: "translate"
