@@ -30,9 +30,15 @@ Rectangle {
         height: width
         anchors.centerIn: parent;
         radius: 0.5 * width
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "white" }
-            GradientStop { position: 1.0; color: "black" }
+        color: Qt.rgba(0, 0, 0, 0)
+        RadialGradient {
+            anchors.fill: parent
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: Qt.rgba(0.8, 0.2, 0.2, 1) }
+                GradientStop { position: 0.499; color: Qt.rgba(0.5, 0.2, 0.2, 1) }
+                GradientStop { position: 0.5; color: Qt.rgba(0, 0, 0, 0) }
+                GradientStop { position: 1; color: Qt.rgba(0, 0, 0, 0) }
+            }
         }
         MouseArea {
             id: mouseArea
