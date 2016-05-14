@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtGraphicalEffects 1.0
 import "Constants.js" as Const
 import "Actions.js" as Actions
 
@@ -13,14 +14,13 @@ Item {
     signal animatedIn();
     signal animatedOut();
     anchors.centerIn: parent;
-    Rectangle {
+    Circle {
+        antialiasing: true
         id: rect
         anchors.centerIn: parent;
-        width: gameBoard.width * 0.1
-        height: width
+        size: gameBoard.width * 0.1
         color: Actions.getColor(element)
         border.width: 2
-        radius: width * 0.5
         Text {
              anchors.centerIn: parent
              color: "black"
@@ -32,7 +32,7 @@ Item {
         Translate { y: element.translate },
         Rotation {
             angle: element.angle
-            Behavior on angle { NumberAnimation { duration: 500 } }
+            Behavior on angle { NumberAnimation { duration: Const.ANIMATION_DURATION } }
         }
     ]
     states: [
@@ -52,7 +52,7 @@ Item {
             SequentialAnimation {
                 NumberAnimation {
                     property: "translate"
-                    duration: 400
+                    duration: Const.ANIMATION_DURATION
                 }
                 ScriptAction { script: element.animatedIn() }
             }
@@ -62,7 +62,7 @@ Item {
             SequentialAnimation {
                 NumberAnimation {
                     property: "translate"
-                    duration: 400
+                    duration: Const.ANIMATION_DURATION
                 }
                 ScriptAction { script: element.animatedOut() }
             }

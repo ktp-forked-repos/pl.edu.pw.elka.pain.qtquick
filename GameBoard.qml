@@ -15,22 +15,19 @@ Rectangle {
         GradientStop { position: bgGrad.stopUp; color: "red" }
         GradientStop { position: bgGrad.stopDown; color: "white" }
         GradientStop { position: 1.01; color: "red" }
-        Behavior on stopUp { NumberAnimation { duration: 500 }}
-        Behavior on stopDown { NumberAnimation { duration: 500 }}
+        Behavior on stopUp { NumberAnimation { duration: Const.ANIMATION_DURATION }}
+        Behavior on stopDown { NumberAnimation { duration: Const.ANIMATION_DURATION }}
     }
 
-    Rectangle {
+    Circle {
         id: gameBoard
         property real mouseAngle: Math.atan2(-mouseArea.mouseX + width / 2, -mouseArea.mouseY + height / 2) / Math.PI * 180 + 180;
         property var element: Actions.createNextElement()
         property int minElemOnBoardVal: 1;
         property int maxElemOnBoardVal: 1;
         readonly property real angleStep: 360 / repeaterModel.count
-        width: parent.width < parent.height ? parent.width : parent.height
-        height: width
+        size: parent.width < parent.height ? parent.width : parent.height
         anchors.centerIn: parent;
-        radius: 0.5 * width
-        color: Qt.rgba(0, 0, 0, 0)
         RadialGradient {
             anchors.fill: parent
             gradient: Gradient {
