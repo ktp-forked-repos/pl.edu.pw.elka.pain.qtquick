@@ -9,10 +9,12 @@ Rectangle {
         id: bgGrad
         property real stopDown: Math.min(1, Math.pow(1 - fillLevel, 2))
         property real stopUp: Math.max(0, 1 - Math.pow(fillLevel, 2))
-        GradientStop { position: 0; color: "white" }
-        GradientStop { position: bgGrad.stopUp; color: "red" }
-        GradientStop { position: bgGrad.stopDown; color: "white" }
-        GradientStop { position: 1; color: "red" }
+        readonly property color red: Qt.rgba(0.5, 0, 0, 1)
+        readonly property color white: Qt.rgba(1, 1, 1, 1)
+        GradientStop { position: 0; color: bgGrad.white }
+        GradientStop { position: bgGrad.stopUp; color: bgGrad.red }
+        GradientStop { position: bgGrad.stopDown; color: bgGrad.white }
+        GradientStop { position: 1; color: bgGrad.red }
         Behavior on stopUp { NumberAnimation { duration: Const.ANIMATION_DURATION }}
         Behavior on stopDown { NumberAnimation { duration: Const.ANIMATION_DURATION }}
     }

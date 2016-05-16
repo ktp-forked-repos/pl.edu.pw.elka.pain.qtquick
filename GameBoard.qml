@@ -25,7 +25,7 @@ Circle {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-        onClicked: { Actions.addItemAt(pointer.index) }
+        onClicked: Actions.addItemAt(pointer.index)
     }
     Pointer {
         id: pointer
@@ -35,19 +35,19 @@ Circle {
     Repeater {
         id: repeater
         model: ListModel { id: repeaterModel }
-        GameElement {
+        delegate: GameElement {
             angle: -index * gameBoard.angleStep
             value: model.value
             type: model.type
-            onAnimatedIn: { Actions.onAnimatedIn(index) }
-            onAnimatedOut: { Actions.onAnimatedOut(index) }
+            onAnimatedIn: Actions.onAnimatedIn(index)
+            onAnimatedOut: Actions.onAnimatedOut(index)
         }
-        onItemAdded: { Actions.animateIn(item) }
+        onItemAdded: Actions.animateIn(item)
     }
     GameElement {
         id: gameElement
         value: gameBoard.element.value
         type: gameBoard.element.type
     }
-    Component.onCompleted: { repeaterModel.append(Actions.createNextElement()); }
+    Component.onCompleted: repeaterModel.append(Actions.createNextElement())
 }

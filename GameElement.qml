@@ -13,14 +13,13 @@ Item {
     signal animatedOut();
     anchors.centerIn: parent;
     Circle {
-        id: rect
-        anchors.centerIn: parent;
+        anchors.centerIn: parent
         size: gameBoard.size * 0.1
         color: Actions.getColor(element)
         Text {
              anchors.centerIn: parent
              font.pixelSize: parent.size * 0.4
-             color: "black"
+             color: Qt.rgba(0, 0, 0, 1)
              text: value
              rotation: -element.angle
         }
@@ -35,10 +34,10 @@ Item {
     states: [
         State {
             name: Const.STATE_ANIMATE_IN
-            PropertyChanges { target: element; translate: gameBoard.width * 0.4 }
+            PropertyChanges { target: element; translate: gameBoard.size * 0.4 }
         },
         State {
-            name: Const.STATE_ANiMATE_OUT
+            name: Const.STATE_ANIMATE_OUT
             PropertyChanges { target: element; translate: 0 }
         }
 
@@ -55,7 +54,7 @@ Item {
             }
         },
         Transition {
-            to: Const.STATE_ANiMATE_OUT
+            to: Const.STATE_ANIMATE_OUT
             SequentialAnimation {
                 NumberAnimation {
                     property: "translate"

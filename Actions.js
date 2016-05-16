@@ -21,11 +21,10 @@ function createNextElement() {
     return { value: value, type: type }
 }
 
-function getColor(item, seed) {
+function getColor(item) {
     if(item.type === Const.TYPE_PLUS) return "black"
-    if(!seed) seed = 0
-    var sin = Math.sin(item.value + seed)
-    var cos = Math.cos(item.value + seed)
+    var sin = Math.sin(item.value)
+    var cos = Math.cos(item.value)
     var r = (sin + 1) * 0.9 + 0.1
     var g = (cos + 1) * 0.9 + 0.1
     var b = (sin - cos + 2) * 0.45 + 0.1
@@ -45,7 +44,7 @@ function animateIn(item) {
 
 function animateOut(item) {
     gameBoard.activeElemCount--;
-    item.state = Const.STATE_ANiMATE_OUT
+    item.state = Const.STATE_ANIMATE_OUT
 }
 
 function onAnimatedOut(index) {
@@ -67,7 +66,7 @@ function checkForGameOver() {
     if(gameBoard.activeElemCount >= Const.MAX_ELEMENTS) {
         for(var i = 0; i < repeater.count; ++i) {
             var item = repeater.itemAt(i);
-            if(item.state !== Const.STATE_ANiMATE_OUT) {
+            if(item.state !== Const.STATE_ANIMATE_OUT) {
                 animateOut(repeater.itemAt(i))
             }
         }
@@ -90,7 +89,7 @@ function recalculateMinMax() {
     for(var i = 0; i < repeaterModel.count; ++i) {
         var item = repeater.itemAt(i)
         if(item.type === Const.TYPE_ELEMENT
-                && item.state !== Const.STATE_ANiMATE_OUT) {
+                && item.state !== Const.STATE_ANIMATE_OUT) {
             var val = repeater.itemAt(i).value
             if(!found) {
                 found = true
@@ -117,7 +116,7 @@ function removeItems(index) {
     if(repeater.count === 0) return
     index = getValidIndex(index)
     var item = repeater.itemAt(index)
-    if(item.state === Const.STATE_ANiMATE_OUT) return
+    if(item.state === Const.STATE_ANIMATE_OUT) return
     var elementCount = repeater.count - 3
     var summedValue = 0
     if(item.type === Const.TYPE_PLUS) {

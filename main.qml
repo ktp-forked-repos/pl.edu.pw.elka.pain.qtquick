@@ -8,7 +8,7 @@ Window {
     minimumHeight: 500
     minimumWidth: 500
 
-    Background { fillLevel: gameBoard.activeElemCount / Const.MAX_ELEMENTS }
+    Background { fillLevel: gameBoard.activeElemCount / Const.MAX_ELEMENTS; }
     GameBoard { id: gameBoard }
 }
 
